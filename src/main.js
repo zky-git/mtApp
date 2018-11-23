@@ -4,6 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 10dcf63383ea4d20834ab0956a61006946f0f53b
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
