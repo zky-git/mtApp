@@ -14,13 +14,13 @@ const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 //配置接口
-const express = require('express')
-const app = express()
+// const express = require('express')
+// const app = express()
 
 //读取json数据ra
-var goods = require('../data/goods.json')
-var ratings = require('../data/ratings.json')
-var seller = require('../data/seller.json')
+// var goods = require('../data/goods.json')
+// var ratings = require('../data/ratings.json')
+// var seller = require('../data/seller.json')
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -52,17 +52,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll,
     },
-    before(app){  //启用当前服务器APP
-      app.get('/api/goods',(req,res)=>{
-        res.json(goods)
-      })
-      app.get('/api/ratings',(req,res)=>{
-        res.json(ratings)
-      })
-      app.get('/api/seller',(req,res)=>{
-        res.json(seller)
-      })
-    }
+    // before(app){  //启用当前服务器APP
+    //   app.get('/api/goods',(req,res)=>{
+    //     res.json(goods)
+    //   })
+    //   app.get('/api/ratings',(req,res)=>{
+    //     res.json(ratings)
+    //   })
+    //   app.get('/api/seller',(req,res)=>{
+    //     res.json(seller)
+    //   })
+    // }
   },
   plugins: [
     new webpack.DefinePlugin({
