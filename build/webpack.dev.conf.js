@@ -13,8 +13,6 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-<<<<<<< HEAD
-=======
 //配置接口
 // const express = require('express')
 // const app = express()
@@ -24,7 +22,6 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 // var ratings = require('../data/ratings.json')
 // var seller = require('../data/seller.json')
 
->>>>>>> 10dcf63383ea4d20834ab0956a61006946f0f53b
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -54,9 +51,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-<<<<<<< HEAD
-    }
-=======
     },
     // before(app){  //启用当前服务器APP
     //   app.get('/api/goods',(req,res)=>{
@@ -69,7 +63,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     //     res.json(seller)
     //   })
     // }
->>>>>>> 10dcf63383ea4d20834ab0956a61006946f0f53b
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
-  "name": "y",
-  "version": "1.0.0",
-  "description": "mtApp",
-=======
   "name": "mt-app",
   "version": "1.0.0",
   "description": "mt-app",
->>>>>>> 10dcf63383ea4d20834ab0956a61006946f0f53b
   "author": "zky <1253673851@qq.com>",
   "private": true,
   "scripts": {
@@ -20,10 +14,7 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
-=======
     "array-includes": "^3.0.3",
->>>>>>> 10dcf63383ea4d20834ab0956a61006946f0f53b
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
@@ -36,10 +27,7 @@
     "chalk": "^2.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
-<<<<<<< HEAD
-=======
     "define-properties": "^1.1.3",
->>>>>>> 10dcf63383ea4d20834ab0956a61006946f0f53b
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
