@@ -1,6 +1,6 @@
 <template>
   <div class="">
-  
+    this is ratings;
   </div>
 </template>
 
