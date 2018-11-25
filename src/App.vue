@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header :poiInfo='poiInfo'></Header>
     <Nav></Nav>
     <router-view/>
   </div>
@@ -21,15 +21,16 @@
       Nav
     },
     created(){
-      //fetch
-      fetch("/api/goods")
-      .then(res=>{
-        console.log(res);
-        // return res.json()
-      })
-      // .then(Response=>{
-      //   console.log(Response)
-      // })
+
+      this.$http.get('/api/goods').then((res) => {
+        console.log(res)
+        if(res.data.code==0){
+          this.poiInfo = res.data.data.poi_info;
+        }
+        
+      }).catch((err) => {
+        console.log(err)
+      });
     }
   }
 </script>

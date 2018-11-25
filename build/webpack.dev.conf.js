@@ -54,7 +54,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     },
     before(app){  //启用当前服务器APP
       app.get('/api/goods',(req,res)=>{
-        res.json(JSON.parse(goods))
+        res.json(goods)
       })
       app.get('/api/ratings',(req,res)=>{
         res.json(ratings)
