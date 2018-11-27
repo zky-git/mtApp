@@ -21,13 +21,10 @@
       Nav
     },
     created(){
-
       this.$http.get('/api/goods').then((res) => {
-        console.log(res)
         if(res.data.code==0){
           this.poiInfo = res.data.data.poi_info;
         }
-        
       }).catch((err) => {
         console.log(err)
       });
