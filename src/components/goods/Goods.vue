@@ -4,13 +4,13 @@
     <div class="menu-wrapper" ref="menuScroll">
       <ul>
         <!-- 专场 -->
-        <li class="menu-item">
+        <li class="menu-item" :class="{'current': currentIndex == 0}" @click="selectMenu(0)">
           <p class="text">
             <img class="icon" :src="container.tag_icon" alt="" v-if="container.tag_icon">
             {{container.tag_name}}
           </p>
         </li>
-        <li class="menu-item" v-for="(item,index) in goods" :key="index">
+        <li class="menu-item" v-for="(item,index) in goods" :key="index" :class="{'current':currentIndex == index +1 }" @click="selectMenu(index+1)">
             <p class="text">
               <img class="icon" :src="item.icon" alt="">
               {{item.name}}
@@ -65,6 +65,9 @@
         container:{},
         goods:{},
         listHeight:[],
+        menuScroll:{},
+        foodScroll:{},
+        scrollY:0
       }
     },
     //计算属性是不能够接收参数的
@@ -73,8 +76,16 @@
         return "background-image:url("+imgName+")"
       },
       initScroll(){
-        new BScroll(this.$refs.menuScroll)
-        new BScroll(this.$refs.foodScroll)
+        this.menuScroll = new BScroll(this.$refs.menuScroll,{
+          click:true
+        });
+        this.foodScroll = new BScroll(this.$refs.foodScroll,{
+          probeType:3,
+          click:true
+        });
+        this.foodScroll.on('scroll',(pos)=>{
+          this.scrollY = Math.abs(Math.round(pos.y))
+        })
       },
       calculateHeight(){
         // 获取元素
@@ -86,7 +97,12 @@
           height += item.clientHeight;
           this.listHeight.push(height);
         }
-        console.log(this.listHeight);
+      },
+      selectMenu(index){
+        console.log(index)
+        let elements = this.$refs.foodScroll.getElementsByClassName('food-list-hook')
+        let element = elements[index];
+        this.foodScroll.scrollToElement(element,250);
       }
     },
     created(){
@@ -94,13 +110,11 @@
           if(result.data.code==0){
             this.container = result.data.data.container_operation_source
             this.goods = result.data.data.food_spu_tags;
-
-
             //DOM已经更新
             this.$nextTick(()=>{
               //执行滚动方法
               this.initScroll();
-              this.calculateHeight()
+              this.calculateHeight();
               //计算分类的取件的高度
               //监听滚动的位置
               //根据滚动位置 确认下标
@@ -111,6 +125,21 @@
       }).catch((err) => {
         
       });
+    },
+    computed:{
+      currentIndex(){
+        for(let i=0;i<this.listHeight.length;i++){
+          //获取商品区间的范围
+          let height1 = this.listHeight[i]
+          let height2 = this.listHeight[i+1]
+
+          //是否在上述区间中
+          if(!height2 || (this.scrollY >= height1 &&this.scrollY < height2)){
+            return i;
+          }
+        }
+        return 0;
+      }
     }
   }
 </script>
