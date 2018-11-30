@@ -54,11 +54,15 @@
         </li>
       </ul>
     </div>
+
+    <!-- 购物车 -->
+    <Shopcart :poiInfo="poiInfo"></Shopcart>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll';
+  import Shopcart from "../shopcart/Shopcart";
   export default {
     data () {
       return {  
@@ -67,7 +71,8 @@
         listHeight:[],
         menuScroll:{},
         foodScroll:{},
-        scrollY:0
+        scrollY:0,
+        poiInfo:{}
       }
     },
     //计算属性是不能够接收参数的
@@ -110,6 +115,7 @@
           if(result.data.code==0){
             this.container = result.data.data.container_operation_source
             this.goods = result.data.data.food_spu_tags;
+            this.poiInfo = result.data.data.poi_info;
             //DOM已经更新
             this.$nextTick(()=>{
               //执行滚动方法
@@ -140,6 +146,9 @@
         }
         return 0;
       }
+    },
+    components:{
+      Shopcart:Shopcart
     }
   }
 </script>
@@ -181,6 +190,7 @@
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
+
 
 .goods .menu-wrapper .menu-item .text .icon{
 	width: 15px;
