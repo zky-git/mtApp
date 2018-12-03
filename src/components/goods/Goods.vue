@@ -47,7 +47,11 @@
                   <span class="text">${{food.min_price}}</span>
                   <span class="unit">/{{food.unit}}</span>
                 </p>
+                
               </div>
+              <div class="carcontrol-wrapper">
+                  <CartControl :food='food'></CartControl>
+                </div>
             </li>
 
           </ul>
@@ -56,13 +60,14 @@
     </div>
 
     <!-- 购物车 -->
-    <Shopcart :poiInfo="poiInfo"></Shopcart>
+    <Shopcart :poiInfo="poiInfo" :selectFoods="selectFoods"></Shopcart>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll';
   import Shopcart from "../shopcart/Shopcart";
+  import CartControl from "../cartControl/CartControl";
   export default {
     data () {
       return {  
@@ -145,10 +150,27 @@
           }
         }
         return 0;
+      },
+      selectFoods(){
+        if(this.goods.length){
+          let foods = [];
+          this.goods.forEach((myfoods)=>{
+            myfoods.spus.forEach((food)=>{
+              if(food.count > 0){
+                foods.push(food)
+              }
+            })
+          })
+          return foods;
+        }else{
+          let foods = [];
+        }
+        
       }
     },
     components:{
-      Shopcart:Shopcart
+      Shopcart:Shopcart,
+      CartControl,
     }
   }
 </script>
@@ -190,7 +212,6 @@
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
-
 
 .goods .menu-wrapper .menu-item .text .icon{
 	width: 15px;
@@ -322,5 +343,12 @@
 	line-height: 13px;
 }
 
+/* 加减控制 */
+.carcontrol-wrapper{
+  width: auto;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+} 
 
 </style>

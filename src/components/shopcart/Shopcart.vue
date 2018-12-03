@@ -2,21 +2,29 @@
   <div class="shopcart-wrapper">
     <!-- 左侧 -->
     <div class="content-left">
-        <div class="logo-wrapper">
-            <span class="icon-shopping_cart logo"></span>
+        <div class="logo-wrapper" :class="{'highLign':totalCount>0}">
+            <span class="icon-shopping_cart logo" :class="{'highLign':totalCount>0}"></span>
+            <i class="num" v-show="totalCount">{{totalCount}}</i>
         </div>
         <div class="desc-wrapper">
-            <p class="tip">另需{{poiInfo.shipping_fee_tip}}</p>
+            <p class="total-price" v-show="totalPrice">
+                ￥{{totalPrice}}
+            </p>
+            <p 
+                class="tip"
+                :class="{'highLign':totalCount>0}"
+                >另需{{poiInfo.shipping_fee_tip}}</p>
         </div>
     </div>
     <!-- 右侧 -->
-    <div class="content-right">
-        {{poiInfo.min_price_tip}}
+    <div class="content-right" :class="{'highLign':totalCount>0}">
+        {{payStr}}
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -26,8 +34,43 @@ export default {
   props:{
       poiInfo:{
           type:Object,
-          default:{}
+          default(){
+              return {};
+          }
+      },
+      selectFoods:{
+          type:Array,
+          default(){
+              return []
+          }
       }
+  },
+  computed:{
+      totalCount(){
+          let num = 0;
+          this.selectFoods.forEach(food => {
+              num += food.count
+          });
+          return num 
+      },
+      totalPrice(){
+          let total = 0;
+          this.selectFoods.forEach((food)=>{
+            total += food.count * food.min_price
+          })
+          return total
+      },
+      payStr(){
+          if(this.totalCount > 0){
+              return "去结算"
+          }else{
+              return this.poiInfo.min_price_tip
+          }
+
+      }
+  },
+  components:{
+      
   }
 }
 </script>
