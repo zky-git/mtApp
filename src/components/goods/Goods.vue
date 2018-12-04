@@ -15,6 +15,9 @@
               <img class="icon" :src="item.icon" alt="">
               {{item.name}}
             </p>
+            <i class="num" v-show="calculateCount(item.spus)">
+              {{calculateCount(item.spus)}}
+            </i>
         </li>
       </ul>
     </div>
@@ -109,10 +112,18 @@
         }
       },
       selectMenu(index){
-        console.log(index)
         let elements = this.$refs.foodScroll.getElementsByClassName('food-list-hook')
         let element = elements[index];
         this.foodScroll.scrollToElement(element,250);
+      },
+      calculateCount(spus){
+        let count = 0;
+        spus.forEach((food)=>{
+          if(food.count>0){
+            count += food.count
+          }
+        })
+        return count;
       }
     },
     created(){

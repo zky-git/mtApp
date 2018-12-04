@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import Vue from 'vue'
+  import Vue from 'vue'
 	export default {
     props:{
       food:{
@@ -85,7 +85,7 @@
 }
 
 .move-enter-active,.move-leave-active{
-	transition: all 0.5s linear;
+	transition: all 0.1s linear;
 }
 .move-enter,.move-leave-to{
 	transform: translateX(20px) rotate(180deg);
