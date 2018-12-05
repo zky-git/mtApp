@@ -64,6 +64,9 @@
 
     <!-- 购物车 -->
     <Shopcart :poiInfo="poiInfo" :selectFoods="selectFoods"></Shopcart>
+
+    <!-- 商品详情 -->
+    <ProductDetail :food="selectedFood" ref="foodView"></ProductDetail>
   </div>
 </template>
 
@@ -71,6 +74,7 @@
   import BScroll from 'better-scroll';
   import Shopcart from "../shopcart/Shopcart";
   import CartControl from "../cartControl/CartControl";
+  import ProductDetail from "../productDetail/ProductDetail"
   export default {
     data () {
       return {  
@@ -80,7 +84,8 @@
         menuScroll:{},
         foodScroll:{},
         scrollY:0,
-        poiInfo:{}
+        poiInfo:{},
+        selectedFood:{}
       }
     },
     //计算属性是不能够接收参数的
@@ -124,6 +129,10 @@
           }
         })
         return count;
+      },
+      showDetail(food){
+        this.selectFood = food
+        this.$refs.foodView.showView()
       }
     },
     created(){
@@ -182,6 +191,7 @@
     components:{
       Shopcart:Shopcart,
       CartControl,
+      ProductDetail
     }
   }
 </script>

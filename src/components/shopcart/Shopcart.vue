@@ -1,69 +1,74 @@
 <template>
-  <div class="shopcart-wrapper">
-    <!-- 左侧 -->
-    <div class="content-left">
-        <div class="logo-wrapper" :class="{'highligh':totalCount>0}" @click="showShopCart_list">
-            <span class="icon-shopping_cart logo" :class="{'highligh':totalCount>0}"></span>
-            <i class="num" v-show="totalCount">{{totalCount}}</i>
-        </div>
-        <div class="desc-wrapper">
-            <p class="total-price" v-show="totalPrice">
-                ￥{{totalPrice}}
-            </p>
-            <p 
-                class="tip"
-                :class="{'highligh':totalCount>0}"
-                >另需{{poiInfo.shipping_fee_tip}}</p>
-        </div>
-    </div>
-    <!-- 右侧 -->
-    <div class="content-right" :class="{'highligh':totalCount>0}">
-        {{payStr}}
-    </div>
-    <!-- 购物车列表 -->
-    <div class="shopcart-list" :class="{'show':show}" v-show="shopList">
-        <div class="list-top"></div>
-        <div class="list-header">
-            <h3 class="title">1号口袋</h3>
-            <div class="empty" @click="clearShopCar">
-                <img src="./img/ash_bin.png" alt="">
-                <span>清空购物车</span>
+  <div class="shopcart">
+    <div class="shopcart-wrapper">
+        <!-- 左侧 -->
+        <div class="content-left">
+            <div class="logo-wrapper" :class="{'highligh':totalCount>0}" @click="toggleList">
+                <span class="icon-shopping_cart logo" :class="{'highligh':totalCount>0}"></span>
+                <i class="num" v-show="totalCount">{{totalCount}}</i>
+            </div>
+            <div class="desc-wrapper">
+                <p class="total-price" v-show="totalPrice">
+                    ￥{{totalPrice}}
+                </p>
+                <p 
+                    class="tip"
+                    :class="{'highligh':totalCount>0}"
+                    >另需{{poiInfo.shipping_fee_tip}}</p>
             </div>
         </div>
-        <div class="list-content" ref="listContent">
-            <ul>
-                <li 
-                    class="food-item"
-                    v-for="(food,index) in selectFoods"
-                    :key="index"
-                    >
-                    <div class="desc-wrapper">
-                        <div class="desc-left">
-                            <p class="name">{{food.name}}</p>
-                            <p class="unit" v-show="!food.description">{{food.unit}}</p>
-                            <p class="description" v-show="!food.unit">{{food.description}}</p>
-                        </div>
-                        <div class="desc-right">
-                            ￥{{food.min_price}}
-                        </div>
-                    </div>
-                    <div class="cartcontrol-wrapper">
-                        <app-cart-control :food="food"></app-cart-control>
-                    </div>
-                </li>
-            </ul>
+        <!-- 右侧 -->
+        <div class="content-right" :class="{'highligh':totalCount>0}">
+            {{payStr}}
         </div>
-        <div class="list-bottom"></div>
+        <!-- 购物车列表 -->
+        <div class="shopcart-list" :class="{'show':shopList}" v-show="shopList">
+            <div class="list-top" v-if="poiInfo.discounts2">{{poiInfo.discounts2[0].info}}</div>
+            <div class="list-header">
+                <h3 class="title">1号口袋</h3>
+                <div class="empty" @click="clearShopCar">
+                    <img src="./img/ash_bin.png" alt="">
+                    <span>清空购物车</span>
+                </div>
+            </div>
+            <div class="list-content" ref="listContent">
+                <ul>
+                    <li 
+                        class="food-item"
+                        v-for="(food,index) in selectFoods"
+                        :key="index"
+                        >
+                        <div class="desc-wrapper">
+                            <div class="desc-left">
+                                <p class="name">{{food.name}}</p>
+                                <p class="unit" v-show="!food.description">{{food.unit}}</p>
+                                <p class="description" v-show="!food.unit">{{food.description}}</p>
+                            </div>
+                            <div class="desc-right">
+                                ￥{{food.min_price}}
+                            </div>
+                        </div>
+                        <div class="cartcontrol-wrapper">
+                            <app-cart-control :food="food"></app-cart-control>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-bottom"></div>
+        </div>
     </div>
+    <!-- 蒙版 -->
+    <div class="shopcart-mask" v-show="shopList" @click="hideMask"></div>
   </div>
 </template>
 
 <script>
 import control from "../cartControl/CartControl"
+import BScroll from "better-scroll"
 export default {
   data () {
     return {
-      show:false
+      fold:true
     }
   },
   props:{
@@ -82,17 +87,18 @@ export default {
   },
   methods:{
     clearShopCar(){
-        this.selectFoods = [];
-        this.show = false
+        this.selectFoods.forEach((food)=>{
+            food.count = 0;
+        })
     },
-   showShopCart_list(){
-        let show = false
-        if(this.totalCount > 0){
-            this.show = !this.show;
-        }else{
-            this.show = show
+   toggleList(){
+        if(!this.totalCount){
+            return;
         }
-        console.log(this.show)
+        this.fold = !this.fold;
+    },
+    hideMask(){
+        this.fold = true
     }
   },
   computed:{
@@ -119,10 +125,23 @@ export default {
 
     },
     shopList(){
-        if(this.totalCount <= 0){
+        if(!this.totalCount){
+            this.fold = true
             return false 
         }
-
+        let show = !this.fold;
+        if(show){
+            this.$nextTick(()=>{
+                if(!this.shopScroll){
+                    this.shopScroll = new BScroll(this.$refs.listContent,{
+                        click:true
+                    })
+                }else{
+                    this.shopScroll.refresh();
+                }
+            })
+        }
+        return show
     }
     
   },
