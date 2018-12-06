@@ -87,7 +87,7 @@
 <script>
 import Vue from 'vue';
 import BScroll from 'better-scroll'
-import CartControl from '../cartcontrol/CartControl'
+import CartControl from '../cartControl/CartControl'
 import Split from '../split/Split'
 	export default {
 		data(){
@@ -103,7 +103,6 @@ import Split from '../split/Split'
     methods:{
       showView(){
         this.showFlag = true
-
         this.$nextTick(() => {
           if(!this.scroll){
             this.scroll = new BScroll(this.$refs.foodView,{
@@ -123,7 +122,7 @@ import Split from '../split/Split'
       }
     },
     components:{
-      CartControl,
+      'CartControl':CartControl,
       Split
     }
 	}
@@ -141,14 +140,10 @@ import Split from '../split/Split'
 }
 
 .food-detail-enter-active, .food-detail-leave-active {
-  transition:  1.0s
+  transition:all 0.3s linear;
 }
 .food-detail-enter, .food-detail-leave-to {
   transform: translateX(100%);
-}
-
-.food .food-wrapper .food-content{
-	
 }
 
 .food .food-wrapper .food-content .img-wrapper{

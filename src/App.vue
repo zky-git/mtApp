@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header :poiInfo='poiInfo'></Header>
-    <Nav></Nav>
+    <Nav :commentNum="commentNum"></Nav>
     <router-view/>
   </div>
 </template>
@@ -13,7 +13,8 @@
     name: 'App',
     data(){
       return{
-        poiInfo:''
+        poiInfo:'',
+        commentNum:0
       }
     },
     components:{
@@ -27,6 +28,14 @@
         }
       }).catch((err) => {
         console.log(err)
+      });
+      this.$http.get('/api/ratings').then((res) => {
+       
+        if(res.data.code==0){
+          this.commentNum= res.data.data.comment_num;
+        }
+      }).catch((err) => {
+        
       });
     }
   }

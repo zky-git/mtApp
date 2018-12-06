@@ -36,7 +36,7 @@
           <h3 class="title">{{item.name}}</h3>
           <!-- 具体的商品列表 -->
           <ul>
-            <li v-for="(food,index) in item.spus" :key="index" class="food-item">
+            <li v-for="(food,index) in item.spus" :key="index" class="food-item" @click="showDetail(food)">
               <div class="icon" :style="head_bg(food.picture)"></div>
               <div class="content">
                 <h3 class="name">{{food.name}}</h3>
@@ -74,7 +74,7 @@
   import BScroll from 'better-scroll';
   import Shopcart from "../shopcart/Shopcart";
   import CartControl from "../cartControl/CartControl";
-  import ProductDetail from "../productDetail/ProductDetail"
+  import ProductDetail from "../productDetail/ProductDetail";
   export default {
     data () {
       return {  
@@ -131,7 +131,8 @@
         return count;
       },
       showDetail(food){
-        this.selectFood = food
+        this.selectedFood = food;
+        console.log(this.selectedFood)
         this.$refs.foodView.showView()
       }
     },
@@ -190,8 +191,8 @@
     },
     components:{
       Shopcart:Shopcart,
-      CartControl,
-      ProductDetail
+      'CartControl':CartControl,
+      'ProductDetail':ProductDetail
     }
   }
 </script>

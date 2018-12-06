@@ -5,7 +5,7 @@
       <i class="line"></i>
     </router-link>
     <router-link to="/ratings" class="nav-item">
-      评价
+      评价<span v-if="commentNum">({{commentNum}})</span>
       <i class="line"></i>
     </router-link>
     <router-link to="/seller" class="nav-item">
@@ -21,6 +21,12 @@ export default {
   data () {
     return {
       
+    }
+  },
+  props:{
+    commentNum:{
+      type:Number,
+      default:0
     }
   }
 }
